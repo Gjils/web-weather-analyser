@@ -18,8 +18,8 @@
 ### 1. Клонирование репозитория
 Склонируйте проект на свой компьютер:
 ```bash
-git clone https://github.com/your-repository/flask-weather-checker.git
-cd flask-weather-checker
+git clone https://github.com/Gjils/weather-analyzer
+cd weather-analyzer
 ```
 
 ### 2. Создание виртуального окружения
