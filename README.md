@@ -22,7 +22,7 @@ git clone https://github.com/your-repository/flask-weather-checker.git
 cd flask-weather-checker
 ```
 
-## 2. Создание виртуального окружения
+### 2. Создание виртуального окружения
 
 Рекомендуется использовать виртуальное окружение для изоляции зависимостей:
 
@@ -32,7 +32,7 @@ source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
 ```
 
-## 3. Установка зависимостей
+### 3. Установка зависимостей
 
 Установите необходимые библиотеки из файла requirements.txt:
 
@@ -40,7 +40,7 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
-## 4. Настройка API-ключа
+### 4. Настройка API-ключа
 
 Получите API-ключ от OpenWeatherMap и добавьте файл `.env`:
 
@@ -48,7 +48,7 @@ pip install -r requirements.txt
 echo OPEN_WEATHER_KEY = "YOUR_KEY" >> .env
 ```
 
-## 5. Запуск приложения
+### 5. Запуск приложения
 
 Запустите Flask-сервер:
 
@@ -58,20 +58,20 @@ python main.py
 
 Откройте в браузере: http://127.0.0.1:5555.
 
-Технологии
+## Технологии
 
 *	Язык программирования: Python 3.8+
 *	Веб-фреймворк: Flask
 *	API для погоды: OpenWeatherMap
 *	HTML
 
-Требования
+## Требования
 
 *	Python 3.8+
 *	Интернет-соединение для запросов к API
 *	Установленные зависимости из requirements.txt
 
-Возможные улучшения
+## Возможные улучшения
 
 *	Добавить поддержку нескольких точек маршрута.
 *	Локализовать вывод на другие языки.
