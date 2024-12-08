@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодный маршрут</title>
+</head>
+<body>
+    <h1>Проверка погоды на маршруте</h1>
+    <form method="POST">
+        <label for="start_city">Начальная точка:</label>
+        <input type="text" id="start_city" name="start_city" placeholder="Город отправления" required>
+        <br><br>
+        <label for="end_city">Конечная точка:</label>
+        <input type="text" id="end_city" name="end_city" placeholder="Город назначения" required>
+        <br><br>
+        <button type="submit">Проверить погоду</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты погоды</title>
+</head>
+<body>
+    <h1>Результаты проверки погоды</h1>
+    <h2>{{ start_city }}</h2>
+    <p>Погода: {{ start_weather['weather'][0]['description'] }}</p>
+    <p>Температура: {{ start_weather['main']['temp'] }}°C</p>
+    <p>Скорость ветра: {{ start_weather['wind']['speed'] }} м/с</p>
+    <p>Плохая погода: {{ "Да" if start_weather_bad else "Нет" }}</p>
+
+    <h2>{{ end_city }}</h2>
+    <p>Погода: {{ end_weather['weather'][0]['description'] }}</p>
+    <p>Температура: {{ end_weather['main']['temp'] }}°C</p>
+    <p>Скорость ветра: {{ end_weather['wind']['speed'] }} м/с</p>
+    <p>Плохая погода: {{ "Да" if end_weather_bad else "Нет" }}</p>
+
+    <a href="{{ url_for('index') }}">Вернуться назад</a>
+</body>
+</html>
