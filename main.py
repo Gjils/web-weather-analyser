@@ -1,5 +1,10 @@
+import uuid
+from flask import Flask, render_template, request, redirect, url_for, flash
 import requests
 import os
+
+app = Flask(__name__)
+app.secret_key = uuid.uuid4().hex
 
 # АссгWeather не работал, решил использовать OpenWeather
 API_KEY = os.getenv("OPEN_WEATHER_KEY")
@@ -44,3 +49,43 @@ def is_bad_weather(data):
         )
     except KeyError:
         return False
+
+weather_api = WeatherAPI(API_KEY)
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        start_city = request.form.get("start_city")
+        end_city = request.form.get("end_city")
+
+        if not start_city or not end_city:
+            flash("Пожалуйста, заполните оба поля!")
+            return redirect(url_for("index"))
+
+        start_weather = weather_api.get_weather(start_city)
+        end_weather = weather_api.get_weather(end_city)
+
+        if start_weather is None or end_weather is None:
+            flash("Не удалось получить данные о погоде. Проверьте введённые города.")
+            return redirect(url_for("index"))
+
+        start_weather_bad = is_bad_weather(start_weather)
+        end_weather_bad = is_bad_weather(end_weather)
+
+        return render_template(
+            "result.html",
+            start_city=start_city,
+            end_city=end_city,
+            start_weather=start_weather,
+            end_weather=end_weather,
+            start_weather_bad=start_weather_bad,
+            end_weather_bad=end_weather_bad,
+        )
+
+    return render_template("index.html")
+
+def main():
+    app.run(debug=True, host="0.0.0.0", port=5555)
+
+if __name__ == "__main__":
+    main()
