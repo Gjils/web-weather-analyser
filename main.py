@@ -50,7 +50,9 @@ def is_bad_weather(data):
     except KeyError:
         return False
 
+
 weather_api = WeatherAPI(API_KEY)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -84,8 +86,10 @@ def index():
 
     return render_template("index.html")
 
+
 def main():
     app.run(debug=True, host="0.0.0.0", port=5555)
+
 
 if __name__ == "__main__":
     main()
