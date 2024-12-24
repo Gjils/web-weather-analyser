@@ -14,11 +14,12 @@ BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 class WeatherAPI:
     def __init__(self, api_key):
         self.api_key = api_key
+        self.base_url_forecast = "https://api.openweathermap.org/data/2.5/forecast"
 
-    def get_weather(self, city_name):
+    def get_forecast(self, city_name):
         try:
             response = requests.get(
-                BASE_URL,
+                self.base_url_forecast,
                 params={
                     "q": city_name,
                     "appid": self.api_key,
@@ -59,29 +60,28 @@ def index():
     if request.method == "POST":
         start_city = request.form.get("start_city")
         end_city = request.form.get("end_city")
+        stops = request.form.get("stops")
+        days = int(request.form.get("days", 5))
 
         if not start_city or not end_city:
-            flash("Пожалуйста, заполните оба поля!")
+            flash("Пожалуйста, заполните начальную и конечную точки маршрута!")
             return redirect(url_for("index"))
 
-        start_weather = weather_api.get_weather(start_city)
-        end_weather = weather_api.get_weather(end_city)
+        cities = [start_city] + [s.strip() for s in stops.split(",") if s.strip()] + [end_city]
+        forecasts = {}
 
-        if start_weather is None or end_weather is None:
-            flash("Не удалось получить данные о погоде. Проверьте введённые города.")
-            return redirect(url_for("index"))
-
-        start_weather_bad = is_bad_weather(start_weather)
-        end_weather_bad = is_bad_weather(end_weather)
+        # Получение данных для всех точек
+        for city in cities:
+            forecast = weather_api.get_forecast(city)
+            if forecast is None:
+                flash(f"Не удалось получить данные о погоде для города: {city}")
+                return redirect(url_for("index"))
+            forecasts[city] = forecast
 
         return render_template(
             "result.html",
-            start_city=start_city,
-            end_city=end_city,
-            start_weather=start_weather,
-            end_weather=end_weather,
-            start_weather_bad=start_weather_bad,
-            end_weather_bad=end_weather_bad,
+            forecasts=forecasts,
+            days=days
         )
 
     return render_template("index.html")

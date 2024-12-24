@@ -3,21 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Результаты погоды</title>
+    <title>Прогноз погоды на маршруте</title>
 </head>
 <body>
-    <h1>Результаты проверки погоды</h1>
-    <h2>{{ start_city }}</h2>
-    <p>Погода: {{ start_weather['weather'][0]['description'] }}</p>
-    <p>Температура: {{ start_weather['main']['temp'] }}°C</p>
-    <p>Скорость ветра: {{ start_weather['wind']['speed'] }} м/с</p>
-    <p>Плохая погода: {{ "Да" if start_weather_bad else "Нет" }}</p>
+    <h1>Прогноз погоды на маршруте</h1>
+    <h2>Выбранный интервал: {{ days }} дней</h2>
 
-    <h2>{{ end_city }}</h2>
-    <p>Погода: {{ end_weather['weather'][0]['description'] }}</p>
-    <p>Температура: {{ end_weather['main']['temp'] }}°C</p>
-    <p>Скорость ветра: {{ end_weather['wind']['speed'] }} м/с</p>
-    <p>Плохая погода: {{ "Да" if end_weather_bad else "Нет" }}</p>
+    {% for city, forecast in forecasts.items() %}
+        <h3>{{ city }}</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Температура</th>
+                    <th>Описание</th>
+                    <th>Скорость ветра</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in forecast.list[:days * 8] %}
+                    <tr>
+                        <td>{{ item.dt_txt }}</td>
+                        <td>{{ item.main.temp }}°C</td>
+                        <td>{{ item.weather[0].description }}</td>
+                        <td>{{ item.wind.speed }} м/с</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 
     <a href="{{ url_for('index') }}">Вернуться назад</a>
 </body>

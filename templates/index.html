@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Погодный маршрут</title>
+    <title>Прогноз погоды на маршруте</title>
 </head>
 <body>
-    <h1>Проверка погоды на маршруте</h1>
+    <h1>Прогноз погоды на маршруте</h1>
     <form method="POST">
         <label for="start_city">Начальная точка:</label>
         <input type="text" id="start_city" name="start_city" placeholder="Город отправления" required>
@@ -14,16 +14,17 @@
         <label for="end_city">Конечная точка:</label>
         <input type="text" id="end_city" name="end_city" placeholder="Город назначения" required>
         <br><br>
+        <label for="stops">Промежуточные точки:</label>
+        <input type="text" name="stops" placeholder="Город 1, Город 2, ..." multiple>
+        <br><br>
+        <label for="days">Дни прогноза:</label>
+        <select id="days" name="days">
+            <option value="1">1 день</option>
+            <option value="3">3 дня</option>
+            <option value="5" selected>5 дней</option>
+        </select>
+        <br><br>
         <button type="submit">Проверить погоду</button>
     </form>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
 </body>
 </html>
