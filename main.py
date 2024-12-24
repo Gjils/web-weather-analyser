@@ -31,7 +31,10 @@ def get_coordinates(city_name):
 
 
 def get_forecast(city_name):
-    lat, lon = get_coordinates(city_name)
+    cords = get_coordinates(city_name)
+    if cords is None:
+        return None
+    lat, lon = cords
     if lat is None or lon is None:
         return None
     try:
@@ -111,11 +114,13 @@ def create_weather_graph(data, city_name, indicators):
     return fig
 
 
-def create_weather_map_with_route(cities):
+def create_weather_map(cities):
     if not cities:
         return None
 
     coordinates = [get_coordinates(city) for city in cities]
+    if any(coord is None for coord in coordinates):
+        return None
     valid_coordinates = [
         (lat, lon) for lat, lon in coordinates if lat is not None and lon is not None
     ]
@@ -287,7 +292,13 @@ def update_visualizations(
 
     weather_graph = create_weather_graph(forecast_data, selected_city, indicators)
 
-    map_path = create_weather_map_with_route(cities)
+    map_path = create_weather_map(cities)
+    if not map_path:
+        return (
+            dropdown_options,
+            weather_graph,
+            None,
+        )
     with open(map_path, "r", encoding="utf-8") as f:
         map_html = f.read()
     os.remove(map_path)
