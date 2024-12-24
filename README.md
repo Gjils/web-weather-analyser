@@ -23,7 +23,7 @@
 ### 1.	Клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/yourusername/weather-route-app.git
+git clone https://github.com/Gjils/web-weather-analyser
 cd weather-route-app
 ```
 
